@@ -1,0 +1,42 @@
+# ---- global ----
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.swo
+
+# ---- frontend (Vite/Vue) ----
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.eslintcache
+frontend/.cache/
+frontend/cypress/videos/
+frontend/cypress/screenshots/
+
+# ---- backend (Laravel) ----
+backend/vendor/
+backend/storage/*.key
+backend/storage/logs/
+backend/storage/framework/cache/**
+backend/storage/framework/sessions/**
+backend/storage/framework/testing/**
+backend/storage/framework/views/**
+backend/bootstrap/cache/*
+
+# env & local db (niemals einchecken)
+backend/.env
+backend/.env.*
+backend/database/database.sqlite
+
+# IDE/OS
+.vscode/
+.idea/
+*.iml
+
+# npm/yarn/pnpm logs & locks (lockfile nach Bedarf erlauben)
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
