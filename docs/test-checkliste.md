@@ -1,42 +1,52 @@
-# Testplan
+# Manuelle Test-Checkliste – iCourse (Laravel 11 & Vue 3)
 
-## Ziel
+**Ziel:** CRUD-Flow, Validierung, Fehlerbilder und Dev-Setup in < 2 Min. verifizierbar.  
+**Statuslegende:** ✅ bestanden · ⚠️ teilweise · ❌ fehlgeschlagen
 
-Nachweis klassischer Testverfahren (Black-Box, Grenzwertanalyse, White-Box, Regression) anhand einer kleinen Bestell-API.
+---
 
-## Scope
+## Start & Health
+✅ Frontend startet (Vite) → `http://localhost:5173`  
+✅ Backend startet (Laravel) → `http://127.0.0.1:8000`  
+✅ Health-Check → `GET /api/ping` ⇒ `{ "ok": true }`  
+✅ Dev-Proxy aktiv → Frontend `/api` → Backend
 
-* /orders: Validierung, Preisberechnung, Fehlerfälle
-* Validierungsfunktionen (PLZ, Menge)
-* Rechenlogik (Mehrwertsteuer, Rundung)
+## Create
+✅ Formular valid (Titel, Datum, Preis ≥ 0) → **POST /api/courses** ⇒ **201**  
+✅ Neuer Kurs erscheint sofort in der Liste (State-Refresh)
 
-## Verfahren
+## Read / List
+✅ `GET /api/courses` liefert Daten (**200**)  
+✅ Pagination sichtbar bei > `per_page`  
+✅ Anzeige korrekt (Titel, Datum, Preis, aktiv)
 
-* Äquivalenzklassen \& Grenzwerte (PLZ, Menge)
-* Entscheidungstabellen (Rabatte – später)
-* White-Box (Validatoren)
-* Regression (Bugs fixen -> Tests bleiben)
+## Suche & Filter
+✅ Freitextsuche `q` filtert nach Titel  
+✅ Aktiv-Filter `active=true/false` wirkt korrekt  
+✅ Kombination Suche + Filter funktioniert
 
-## Entry/Exit
+## Update (optional)
+✅ Kursdaten änderbar (**PUT/PATCH**) ⇒ **200**
 
-* Entry: Repo gebaut, npm install läuft, API startet
-* Exit: Mind. 8 Testfälle grün; bekannte Bugs gefixt oder dokumentiert
+## Delete
+✅ Löschen entfernt Eintrag (**DELETE /api/courses/{id}** ⇒ **204**)  
+✅ Liste aktualisiert sich ohne Reload
 
+## Validierung
+✅ Clientseitig: z. B. Preis ≥ 0 (Browser-Hinweis)  
+✅ Serverseitig: FormRequest ⇒ **422** mit Feldfehlern  
+✅ Fehlermeldungen sind verständlich & feldnah
 
+## Lade- & Fehlerzustände
+✅ Loading sichtbar (Spinner/„Lade…“) bei pending Requests  
+✅ Serverfehler/Offline ⇒ UI-Hinweis + Console-Log (**500**)  
+✅ Validation-Fehler ⇒ UI-Hinweis (**422**), kein Absturz
 
-| ID   | Bereich  | Titel                           | Erwartung                    |
+## CORS & Sicherheit (dev)
+✅ CORS erlaubt `http://localhost:5173` (nur dev)  
+✅ Keine geheimen Keys im Frontend/Repo (env/gitignore geprüft)
 
-| ---- | -------- | ------------------------------- | ---------------------------- |
+---
 
-| T-01 | ZIP      | PLZ muss genau 5 Ziffern haben  | 400 + `message=invalid-zip`  |
-
-| T-02 | Menge    | qty > 10 wird abgewiesen        | 400 + `message=invalid-qty`  |
-
-| T-03 | Preis    | 0.1+0.2 korrekt (Cent-Integer)  | Total korrekt (0.36)         |
-
-| T-04 | Contract | Fehlerobjekt nutzt `message`    | Konsistentes Schema          |
-
-| T-05 | Lager    | stock=0 → Bestellung blockieren | 409 + `message=out-of-stock` |
-
-
-
+**Ergebnis:**  
+✅ Alle Kernpfade (Create, List, Filter, Delete) inkl. Validierung & Fehlerbilder manuell verifiziert.
