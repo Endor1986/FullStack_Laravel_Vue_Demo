@@ -1,4 +1,4 @@
-# Manuelle Test-Checkliste – iCourse (Laravel 11 & Vue 3)
+# Manuelle Test-Checkliste – Kursverwaltung (Laravel 11 & Vue 3)
 
 **Ziel:** CRUD-Flow, Validierung, Fehlerbilder und Dev-Setup in < 2 Min. verifizierbar.  
 **Statuslegende:** ✅ bestanden · ⚠️ teilweise · ❌ fehlgeschlagen
